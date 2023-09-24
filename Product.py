@@ -7,6 +7,7 @@ app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'Products.sqlite')
 db = SQLAlchemy(app)
+port = int(os.environ.get("PORT", 10000))
 # Sample data
 
 class Product(db.Model):
@@ -81,4 +82,4 @@ def create_product(name):
 
 if __name__ == '__main__':
     db.create_all()
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0", port=port)
