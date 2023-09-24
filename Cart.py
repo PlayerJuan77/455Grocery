@@ -1,10 +1,7 @@
 import requests
-import json
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
-
-# QUANTITIES NEED TO DECREMENT IN PRODUCTS
 
 class item:
     def __init__(self, ID, name, price, quantity):
@@ -22,17 +19,11 @@ class item:
 
 cart = []
 
-# so when we add to cart, we really dont need all that
-# it can more just be a copy right?
-# 1. the productID is just from the URL
-# 2. GET request to products to get info
-# 3. See if ID is in the products list
-
 @app.route('/cart/<int:user_id>/add/<int:product_id>', methods=['POST'])
 def add_cart(user_id, product_id):
     data = request.json
     quantity = data['quantity']
-    r = requests.get(f"http://127.0.0.1:5000/products/{product_id}")
+    r = requests.get(f"https://isaiahs455grocery.onrender.com/products/{product_id}")
     if r.status_code == 404:
         return jsonify({"message": "Product not found"}), 404
     response = r.json()
@@ -43,7 +34,7 @@ def add_cart(user_id, product_id):
     while len(cart) <= cart_id:
         cart.append([])
     cart[cart_id].append(cart_item)
-    requests.post(f"http://127.0.0.1:5000/products/{product_id}/remove/{quantity}")
+    requests.post(f"https://isaiahs455grocery.onrender.com/products/{product_id}/remove/{quantity}")
     return jsonify({"message": "Added to cart", "cart_item": cart_item.__dict__}), 201
 
 @app.route('/cart/<int:user_id>', methods = ['GET'])
@@ -69,19 +60,19 @@ def remove_task(user_id, product_id):
 
 # Get the current cart info w name price and quant
 def get_cart(user_id):
-    response = requests.get('http://127.0.0.1:5001/cart/{user_id}')
+    response = requests.get('https://isaiahs455grocerycart.onrender.com/cart/{user_id}')
     data = response.json()
     return data
 
 #Will be to remove things out of my cart, specify amount??
 def remove_cart(user_id, product_id):
-    response = requests.get(f'http://127.0.0.1:5001/cart/{user_id}/remove/{product_id}')
+    response = requests.get(f'https://isaiahs455grocerycart.onrender.com/cart/{user_id}/remove/{product_id}')
     data = response.json()
     return data
 
 #to add products to the cart specify number and product id?
 def add_cart(user_id, product_id):
-    response = requests.post(f'http://127.0.0.1:5001/cart/{user_id}/add/{product_id}')
+    response = requests.post(f'https://isaiahs455grocerycart.onrender.com/cart/{user_id}/add/{product_id}')
     data = response.json()
     return data
 
