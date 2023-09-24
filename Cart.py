@@ -2,7 +2,7 @@ import requests
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
-
+port = int(os.environ.get("PORT", 10000))
 class item:
     def __init__(self, ID, name, price, quantity):
         self.ID = ID
@@ -77,4 +77,4 @@ def add_cart(user_id, product_id):
     return data
 
 if __name__ == '__main__':
-    app.run(debug=True, port=10000)
+    app.run(debug=True, host="0.0.0.0", port=port)
