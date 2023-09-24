@@ -62,20 +62,20 @@ def create_product():
 
 def get_all_products():
 #Retrieve a list of available grocery products, including their names, prices, and quantities in stock
-    response = requests.get('http://127.0.0.1:5000/products')
+    response = requests.get('https://isaiahs455grocery.onrender.com/products')
     data = response.json()
     return data
 
 def get_product(product_id):
 #Get details about a specific product by its unique ID.
-    response = requests.get(f'http://127.0.0.1:5000/products/{product_id}')
+    response = requests.get(f'https://isaiahs455grocery.onrender.com/products/{product_id}')
     data = response.json()
     return data
 
 def create_product(name):
 #Allow the addition of new grocery products to the inventory with information such as name, price, and quantity
     new_product = {"name": name}
-    response = requests.post('http://127.0.0.1:5000/products', json=new_product)
+    response = requests.post('https://isaiahs455grocery.onrender.com/products', json=new_product)
     data = response.json()
     return data
 
